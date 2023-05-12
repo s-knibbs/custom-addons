@@ -1,6 +1,5 @@
 ---
 name: snapserver
-version: dev
 slug: snapcastserver
 description: Snapcast Server add-on
 url: https://github.com/s-knibbs/custom-addons

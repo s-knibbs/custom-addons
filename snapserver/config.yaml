@@ -6,6 +6,7 @@ description: Snapcast Server add-on
 url: https://github.com/s-knibbs/custom-addons
 codenotary: simon.knibbs@gmail.com
 version: 0.1.0
+image: "ghcr.io/s-knibbs/{arch}-snapserver"
 arch:
   - aarch64
   - amd64

@@ -23,14 +23,13 @@ async def start_piper(length_scale: float | None = None) -> Process:
         *args,
         stdin=PIPE,
         stdout=PIPE,
-        stderr=None,
     )
 
 
 async def tts(request: web.Request):
     piper: Process = request.app['piper']
     piper_lock: asyncio.Lock = request.app['piper_lock']
-    message = request.query.get('message')
+    message = await request.text()
     async with piper_lock:
         piper.stdin.write(f"{message}\n".encode())
         await piper.stdin.drain()
@@ -44,7 +43,7 @@ async def tts(request: web.Request):
 
 async def init() -> web.Application:
     app = web.Application()
-    app.add_routes([web.get('/tts', tts)])
+    app.add_routes([web.post('/tts', tts)])
     app['piper'] = await start_piper(LENGTH_SCALE)
     app['piper_lock'] = asyncio.Lock()
     return app

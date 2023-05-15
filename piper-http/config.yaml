@@ -10,11 +10,14 @@ arch:
   - amd64
   - i386
 host_network: true
+map: ["share:rw"]
 audio: false
 init: false
 options:
   length_scale: 1.0
+  model_file: /usr/share/piper/en-us-ryan-medium.onnx
 schema:
   length_scale: float
+  model_file: str
 ports:
   5000/tcp: 5000

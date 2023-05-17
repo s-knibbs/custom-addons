@@ -1,0 +1,23 @@
+---
+name: OpenWakeWord Rhasspy
+slug: openwakeword-rhasspy
+description: Wake word engine for waking Rhasspy 2
+url: https://github.com/s-knibbs/custom-addons
+version: 0.1.0
+image: "ghcr.io/s-knibbs/{arch}-openwakeword-rhasspy"
+arch:
+  - aarch64
+  - amd64
+host_network: true
+audio: true
+init: false
+options:
+  chunk_length: 80
+  model: hey_jarvis
+  threshold: 0.5
+  rhasspy_url: http://localhost:12101
+schema:
+  chunk_length: list(80|160|240)
+  model: list(alexa|hey_mycroft|hey_jarvis)
+  threshold: float
+  rhasspy_url: url

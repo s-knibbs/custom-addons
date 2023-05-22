@@ -7,6 +7,7 @@ RUN apt-get update \
       python3-pip \
       gcc \
       portaudio19-dev \
+      libasound2-plugins \
     && pip3 install --no-cache-dir -U setuptools wheel \
     && pip3 install --no-cache-dir pyaudio requests openwakeword
 

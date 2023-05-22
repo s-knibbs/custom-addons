@@ -3,7 +3,7 @@ name: Piper HTTP
 slug: piper-http
 description: Serves Piper over http for use with Rhasspy 2
 url: https://github.com/s-knibbs/custom-addons
-version: 0.1.0
+version: 0.1.1
 image: "ghcr.io/s-knibbs/{arch}-piper-http"
 arch:
   - aarch64

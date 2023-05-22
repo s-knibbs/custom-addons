@@ -24,5 +24,5 @@ RUN apt-get update \
 
 WORKDIR /
 COPY run.* /
-RUN chmod +x run.py
+RUN chmod +x run.sh
 CMD [ "/run.sh" ]

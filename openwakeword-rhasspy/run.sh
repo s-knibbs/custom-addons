@@ -1,4 +1,4 @@
-#!/usr/bin/env bashio
+#!/usr/bin/with-contenv bashio
 
 export MODEL=$(bashio::config 'model')
 export CHUNK_LENGTH=$(bashio::config 'chunk_length')

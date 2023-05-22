@@ -12,4 +12,5 @@ RUN apt-get update \
 
 WORKDIR /
 COPY run.sh wakeword.py /
+RUN chmod a+x /run.sh
 CMD [ "/run.sh" ]

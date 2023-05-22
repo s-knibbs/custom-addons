@@ -1,0 +1,22 @@
+---
+name: Piper HTTP
+slug: piper-http
+description: Serves Piper over http for use with Rhasspy 2
+url: https://github.com/s-knibbs/custom-addons
+version: 0.1.0
+image: "ghcr.io/s-knibbs/{arch}-piper-http"
+arch:
+  - aarch64
+  - amd64
+  - i386
+host_network: true
+map: ["share:rw"]
+init: false
+options:
+  length_scale: 1.0
+  model_file: /usr/share/piper/en-us-ryan-medium.onnx
+schema:
+  length_scale: float
+  model_file: str
+ports:
+  5000/tcp: 5000

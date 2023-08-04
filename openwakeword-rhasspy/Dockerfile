@@ -1,6 +1,8 @@
 ARG BUILD_FROM
 FROM ${BUILD_FROM}
 
+ENV PIP_BREAK_SYSTEM_PACKAGES 1
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
       python3-dev \

@@ -1,5 +1,6 @@
 from typing import Any
 import argparse
+from distutils.util import strtobool
 import os
 import time
 from traceback import print_exc
@@ -18,6 +19,7 @@ COOLDOWN_SECS = 1.0
 DEFAULT_CHUNK_LENGTH = 80
 DEFAULT_MODEL = "hey_jarvis_v0.1"
 DEFAULT_THRESHOLD = 0.5
+DEFAULT_VAD_THRESHOLD = 0.5
 
 
 def handle_detection(base_url: str):
@@ -68,6 +70,17 @@ def parse_argments() -> argparse.Namespace:
         help="Detection threshold to use"
     )
     parser.add_argument(
+        '--vad-threshold', '-v',
+        default=os.environ.get("VAD_THRESHOLD", DEFAULT_VAD_THRESHOLD),
+        type=float,
+        help="vad_threshold between 0 and 1"
+    )
+    parser.add_argument(
+        '--noise-suppression', '-n',
+        action='store_true',
+        default=strtobool(os.environ.get("NOISE_SUPPRESSION", 'f'))
+    )
+    parser.add_argument(
         '--rhasspy-url', '-r',
         default=os.environ.get("RHASSPY_URL", "http://localhost:12101"),
         help="Host of rhasspy"
@@ -75,11 +88,13 @@ def parse_argments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def init(model_path: str, chunk_samples: int) -> tuple[Model, Any]:
+def init(model_path: str, chunk_samples: int, vad_threshold: float, noise_suppression: bool) -> tuple[Model, Any]:
     # Get microphone stream
     audio = pyaudio.PyAudio()
     mic_stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=chunk_samples)
-    return (Model(wakeword_model_paths=[model_path]), mic_stream)
+    return (
+        Model(wakeword_model_paths=[model_path], vad_threshold=vad_threshold, enable_speex_noise_suppression=noise_suppression), mic_stream
+    )
 
 
 if __name__ == "__main__":
@@ -103,7 +118,7 @@ if __name__ == "__main__":
             print(f"No such model: {args.model}")
         else:
             main(
-                *init(selected_model, chunk_samples=cl * RATE // 1000),
+                *init(selected_model, chunk_samples=cl * RATE // 1000, vad_threshold=args.vad_threshold, noise_suppression=args.noise_suppression),
                 threshold=args.threshold,
                 rhasspy_url=args.rhasspy_url.rstrip("/"),
                 chunk_samples=cl * RATE // 1000

@@ -11,7 +11,7 @@ RUN apt-get update \
       portaudio19-dev \
       libasound2-plugins \
     && pip3 install --no-cache-dir -U setuptools wheel \
-    && pip3 install --no-cache-dir pyaudio requests openwakeword
+    && pip3 install --no-cache-dir pyaudio requests openwakeword==0.5.0
 
 WORKDIR /
 COPY run.sh wakeword.py /

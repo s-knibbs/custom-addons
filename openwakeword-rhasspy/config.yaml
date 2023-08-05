@@ -20,7 +20,7 @@ options:
   noise_suppression: true
 schema:
   chunk_length: list(80|160|240)
-  model: list(alexa|hey_mycroft|hey_jarvis)
+  model: list(alexa|hey_mycroft|hey_jarvis|hey_rhasspy)
   threshold: float
   vad_threshold: float(0,1)
   rhasspy_url: url

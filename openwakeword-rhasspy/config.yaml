@@ -3,7 +3,7 @@ name: OpenWakeWord Rhasspy
 slug: openwakeword-rhasspy
 description: Wake word engine for waking Rhasspy 2
 url: https://github.com/s-knibbs/custom-addons
-version: 0.2.1
+version: 0.3.0
 image: "ghcr.io/s-knibbs/{arch}-openwakeword-rhasspy"
 arch:
   - aarch64

@@ -1,0 +1,27 @@
+---
+configuration:
+  chunk_length:
+    name: Chunk Length
+    description: Length of audio to predict at once
+  model:
+    name: Model
+    description: Name of the wakeword model to use
+  threshold:
+    name: Threshold
+    description: Confidence threshold to use
+  vad_threshold:
+    name: VAD threshold
+    description: Threshold for voice activity detection
+  noise_suppression:
+    name: Noise Suppression
+    description: Enable Speex Noise Suppression
+  verifier_model:
+    name: Custom Verifier Model
+    description: Path to custom verifier model trained on the selected model
+  verifier_threshold:
+    name: Verifier Threshold
+    description: Confidence threshold to use
+  rhasspy_url:
+    name: Rhasspy URL
+    description: URL to Rhasspy 2.5
+  

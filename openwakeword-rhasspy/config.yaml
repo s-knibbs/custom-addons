@@ -9,6 +9,7 @@ arch:
   - aarch64
   - amd64
 host_network: true
+map: ["share:rw"]
 audio: true
 init: false
 options:
@@ -18,10 +19,14 @@ options:
   vad_threshold: 0.5
   rhasspy_url: http://localhost:12101
   noise_suppression: true
+  verifier_model:
+  verifier_threshold: 0.3
 schema:
   chunk_length: list(80|160|240)
   model: list(alexa|hey_mycroft|hey_jarvis)
-  threshold: float
+  threshold: float(0,1)
+  verifier_model: str
+  verifier_threshold: float(0,1)
   vad_threshold: float(0,1)
   rhasspy_url: url
   noise_suppression: bool

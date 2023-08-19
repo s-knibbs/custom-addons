@@ -81,6 +81,16 @@ def parse_argments() -> argparse.Namespace:
         default=strtobool(os.environ.get("NOISE_SUPPRESSION", 'f'))
     )
     parser.add_argument(
+        '--verifier-model', '-V',
+        type=str,
+        default=os.environ.get("VERIFIER_MODEL", '')
+    )
+    parser.add_argument(
+        '--verifier-threshold', '-T',
+        type=float,
+        default=os.environ.get("VERIFIER_THRESHOLD", 0)
+    )
+    parser.add_argument(
         '--rhasspy-url', '-r',
         default=os.environ.get("RHASSPY_URL", "http://localhost:12101"),
         help="Host of rhasspy"
@@ -88,13 +98,34 @@ def parse_argments() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def init(model_path: str, chunk_samples: int, vad_threshold: float, noise_suppression: bool) -> tuple[Model, Any]:
+def init(
+        model_path: str,
+        chunk_samples: int,
+        vad_threshold: float,
+        noise_suppression: bool,
+        custom_verifier_model: str,
+        verifier_threshold: float,
+    ) -> tuple[Model, Any]:
     # Get microphone stream
     audio = pyaudio.PyAudio()
     mic_stream = audio.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=chunk_samples)
+    if custom_verifier_model:
+        custom_verifier_models = {model_name_from_path(model_path): custom_verifier_model}
     return (
-        Model(wakeword_model_paths=[model_path], vad_threshold=vad_threshold, enable_speex_noise_suppression=noise_suppression), mic_stream
+        Model(
+            model_paths=[model_path],
+            vad_threshold=vad_threshold,
+            enable_speex_noise_suppression=noise_suppression,
+            custom_verifier_models=custom_verifier_models,
+            custom_verifier_threshold=verifier_threshold
+        ),
+        mic_stream
     )
+
+
+def model_name_from_path(model_path: str) -> str:
+    model_name, _ = os.path.basename(model_path).rsplit('_', 1)
+    return model_name
 
 
 if __name__ == "__main__":
@@ -118,7 +149,14 @@ if __name__ == "__main__":
             print(f"No such model: {args.model}")
         else:
             main(
-                *init(selected_model, chunk_samples=cl * RATE // 1000, vad_threshold=args.vad_threshold, noise_suppression=args.noise_suppression),
+                *init(
+                    selected_model,
+                    chunk_samples=cl * RATE // 1000,
+                    vad_threshold=args.vad_threshold,
+                    noise_suppression=args.noise_suppression,
+                    custom_verifier_model=args.verifier_model,
+                    verifier_threshold=args.verifier_threshold,
+                ),
                 threshold=args.threshold,
                 rhasspy_url=args.rhasspy_url.rstrip("/"),
                 chunk_samples=cl * RATE // 1000

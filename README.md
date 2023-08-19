@@ -16,6 +16,14 @@ This repository contains the following add-ons
 
 Installs [snapcast server](https://github.com/badaix/snapcast) onto home assistant
 
+## [openWakeWord-Rhasspy](./openwakeword-rhasspy)
+
+Uses [openWakeWord](https://github.com/dscripka/openWakeWord) to wake a rhasspy 2.5 server via http.
+
+## [Piper HTTP](./piper-http)
+
+Allows piper to be used as the tts engine for rhasspy 2.5
+
 <!--
 
 Notes to developers after forking or using the github template feature:
